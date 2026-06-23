@@ -1,5 +1,9 @@
 # Environment
 .env
+.env.local
+
+# Virtual environment
+venv/
 
 # Cached data
 data/*.csv
@@ -11,6 +15,7 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+.pytest_cache/
 
 # IDE
 .vscode/

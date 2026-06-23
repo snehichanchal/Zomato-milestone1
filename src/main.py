@@ -9,6 +9,7 @@ Usage:
 """
 
 import logging
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -73,15 +74,24 @@ app = FastAPI(
 app.state.repo = repo
 
 # ---------------------------------------------------------------------------
-# CORS — allow frontend dev servers
+# CORS — configurable via CORS_ORIGINS env var (comma-separated)
 # ---------------------------------------------------------------------------
+
+_default_origins = [
+    "http://localhost:3000",   # Next.js default
+    "http://localhost:5173",   # Vite default
+]
+
+_env_origins = os.getenv("CORS_ORIGINS", "")
+allowed_origins = (
+    [o.strip() for o in _env_origins.split(",") if o.strip()]
+    if _env_origins
+    else _default_origins
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",   # Next.js default
-        "http://localhost:5173",   # Vite default
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -107,4 +117,5 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run("src.main:app", host="0.0.0.0", port=port, reload=True)
