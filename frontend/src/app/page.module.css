@@ -1,0 +1,189 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ============ Hero ============ */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fef2f2 0%, #f9f9f9 50%, #fdf4ff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(183, 18, 42, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 103, 98, 0.04) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 720px;
+  z-index: 1;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.headline {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .headline {
+    font-size: 64px;
+  }
+}
+
+.headlineAccent {
+  color: var(--color-primary);
+}
+
+.subheadline {
+  font-size: 18px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: background var(--transition-std), transform var(--transition-fast), box-shadow var(--transition-std);
+  box-shadow: 0 4px 16px rgba(183, 18, 42, 0.25);
+}
+
+.cta:hover {
+  background: var(--color-surface-tint);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(183, 18, 42, 0.35);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+/* ============ Features ============ */
+.features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+@media (min-width: 768px) {
+  .features {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.featureCard {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-highest);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform var(--transition-std), box-shadow var(--transition-std);
+  box-shadow: var(--shadow-sm);
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.featureTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.featureDesc {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.5;
+}
+
+/* ============ Cuisine Ticker ============ */
+.tickerSection {
+  padding: 32px 0;
+  overflow: hidden;
+  background: var(--color-surface-container-low);
+  border-top: 1px solid var(--color-surface-container-high);
+  border-bottom: 1px solid var(--color-surface-container-high);
+}
+
+.tickerTrack {
+  overflow: hidden;
+  width: 100%;
+}
+
+.tickerContent {
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
+  animation: tickerScroll 30s linear infinite;
+  width: fit-content;
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.tickerChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface-variant);
+  border: 1px solid var(--color-surface-container-highest);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}

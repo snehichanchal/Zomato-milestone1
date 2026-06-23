@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  text-align: center;
+  border: 2px dashed var(--color-surface-container-highest);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-container-lowest);
+}
+
+.iconCircle {
+  width: 80px;
+  height: 80px;
+  background: var(--color-surface-container-high);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--color-on-surface-variant);
+  max-width: 400px;
+  line-height: 1.5;
+}

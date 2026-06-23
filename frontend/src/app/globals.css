@@ -1,0 +1,528 @@
+/* ============================================================
+   Design System — Zomato AI Restaurant Recommendations
+   Based on Stitch design output (light theme, corporate modern)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* ----------------------------------------------------------
+   CSS Custom Properties (Design Tokens)
+   ---------------------------------------------------------- */
+:root {
+  /* Colors — Surfaces */
+  --color-background:              #f9f9f9;
+  --color-surface:                 #f9f9f9;
+  --color-surface-dim:             #dadada;
+  --color-surface-bright:          #f9f9f9;
+  --color-surface-container-lowest:#ffffff;
+  --color-surface-container-low:   #f3f3f3;
+  --color-surface-container:       #eeeeee;
+  --color-surface-container-high:  #e8e8e8;
+  --color-surface-container-highest:#e2e2e2;
+
+  /* Colors — Primary / Accent */
+  --color-primary:                 #b7122a;
+  --color-primary-container:       #db313f;
+  --color-on-primary:              #ffffff;
+  --color-on-primary-container:    #fffbff;
+  --color-surface-tint:            #bb162c;
+
+  /* Colors — Text */
+  --color-on-surface:              #1a1c1c;
+  --color-on-surface-variant:      #5b403f;
+  --color-secondary:               #5f5e5e;
+  --color-on-secondary:            #ffffff;
+
+  /* Colors — Semantic */
+  --color-success:                 #24963F;
+  --color-error:                   #ba1a1a;
+  --color-on-error:                #ffffff;
+  --color-error-container:         #ffdad6;
+  --color-on-error-container:      #93000a;
+  --color-tertiary:                #006762;
+  --color-on-tertiary:             #ffffff;
+
+  /* Colors — Borders / Outlines */
+  --color-outline:                 #8f6f6e;
+  --color-outline-variant:         #e4bebc;
+
+  /* Rank badge colors */
+  --color-rank-gold:               #FFD700;
+  --color-rank-silver:             #C0C0C0;
+  --color-rank-bronze:             #CD7F32;
+
+  /* Typography */
+  --font-family:                   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing (8px grid) */
+  --space-unit:                    8px;
+  --space-xs:                      4px;
+  --space-sm:                      8px;
+  --space-md:                      16px;
+  --space-lg:                      24px;
+  --space-xl:                      32px;
+  --space-2xl:                     48px;
+  --space-3xl:                     64px;
+
+  /* Layout */
+  --container-max:                 1200px;
+  --gutter:                        24px;
+  --margin-mobile:                 16px;
+  --margin-desktop:                32px;
+
+  /* Shapes */
+  --radius-sm:                     0.25rem;
+  --radius-default:                0.5rem;
+  --radius-md:                     0.75rem;
+  --radius-lg:                     1rem;
+  --radius-xl:                     1.5rem;
+  --radius-full:                   9999px;
+
+  /* Shadows */
+  --shadow-sm:                     0px 1px 3px rgba(28, 28, 28, 0.06), 0px 1px 2px rgba(28, 28, 28, 0.04);
+  --shadow-md:                     0px 4px 12px rgba(28, 28, 28, 0.08);
+  --shadow-lg:                     0px 8px 24px rgba(28, 28, 28, 0.12);
+  --shadow-card:                   0px 4px 12px rgba(28, 28, 28, 0.08);
+  --shadow-card-hover:             0px 8px 24px rgba(28, 28, 28, 0.14);
+
+  /* Transitions */
+  --transition-fast:               0.15s ease;
+  --transition-std:                0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:               0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ----------------------------------------------------------
+   Global Reset & Base
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* ----------------------------------------------------------
+   Typography Scale
+   ---------------------------------------------------------- */
+.text-display-lg {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: -0.02em;
+}
+
+.text-headline-lg {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.01em;
+}
+
+.text-headline-lg-mobile {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.text-headline-md {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.text-body-lg {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.text-body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.text-body-sm {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.text-label-md {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+}
+
+.text-label-sm {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+/* ----------------------------------------------------------
+   Layout Utilities
+   ---------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: var(--margin-mobile);
+  padding-right: var(--margin-mobile);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: var(--margin-desktop);
+    padding-right: var(--margin-desktop);
+  }
+}
+
+/* ----------------------------------------------------------
+   Component Styles
+   ---------------------------------------------------------- */
+
+/* Chips / Tags */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.chip--active {
+  background: var(--color-surface-container-lowest);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Filter pill buttons */
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  border: 1px solid transparent;
+  transition: all var(--transition-std);
+  cursor: pointer;
+}
+
+.filter-pill:hover {
+  background: var(--color-surface-container-highest);
+}
+
+.filter-pill--active {
+  background: var(--color-surface-container-lowest);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Rating Badge */
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 8px;
+  background: var(--color-success);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rating-badge .material-symbols-outlined {
+  font-size: 14px;
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Rank Badges */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
+}
+
+.rank-badge--1 {
+  background: var(--color-rank-gold);
+  color: var(--color-on-surface);
+  border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+.rank-badge--2 {
+  background: var(--color-rank-silver);
+  color: var(--color-on-surface);
+  border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.rank-badge--3 {
+  background: var(--color-rank-bronze);
+  color: white;
+  border: 1px solid rgba(160, 98, 38, 0.5);
+}
+
+.rank-badge--default {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  border: 1px solid var(--color-surface-container-highest);
+}
+
+/* AI Explanation Blockquote */
+.ai-explanation {
+  background: var(--color-surface-container-low);
+  padding: 12px;
+  border-radius: var(--radius-default);
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+  font-style: italic;
+  border-left: 2px solid var(--color-primary);
+  line-height: 1.6;
+}
+
+/* Form inputs */
+.form-input {
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-default);
+  background: var(--color-surface-container-lowest);
+  font-size: 14px;
+  color: var(--color-on-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(183, 18, 42, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.6;
+}
+
+.form-input--with-icon {
+  padding-left: 40px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.05em;
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+}
+
+/* Primary button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 24px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-lg);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-std), transform var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--color-surface-tint);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ----------------------------------------------------------
+   Custom Scrollbar
+   ---------------------------------------------------------- */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-surface-container-highest);
+  border-radius: 20px;
+}
+
+/* ----------------------------------------------------------
+   Animations
+   ---------------------------------------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.6; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease forwards;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container-high) 25%,
+    var(--color-surface-container) 50%,
+    var(--color-surface-container-high) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-default);
+}
+
+/* Staggered entrance for cards */
+.stagger-1 { animation-delay: 0ms; }
+.stagger-2 { animation-delay: 100ms; }
+.stagger-3 { animation-delay: 200ms; }
+.stagger-4 { animation-delay: 300ms; }
+.stagger-5 { animation-delay: 400ms; }
+
+/* ----------------------------------------------------------
+   Material Symbols fix
+   ---------------------------------------------------------- */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

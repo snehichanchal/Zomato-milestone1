@@ -1,0 +1,125 @@
+.header {
+  background: var(--color-surface-container-lowest);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.logoSub {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  line-height: 1.2;
+}
+
+/* Desktop Nav */
+.desktopNav {
+  display: none;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .desktopNav {
+    display: flex;
+  }
+}
+
+.navLink {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition-std), border-color var(--transition-std);
+}
+
+.navLink:hover {
+  color: var(--color-primary);
+}
+
+.navLinkActive {
+  color: var(--color-primary);
+  font-weight: 700;
+  border-bottom-color: var(--color-primary);
+}
+
+/* Hamburger */
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  padding: 4px;
+}
+
+.hamburger:hover {
+  color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+/* Mobile Nav */
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-container-lowest);
+  border-top: 1px solid var(--color-surface-container-highest);
+  padding: 16px var(--margin-mobile);
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mobileNavLink {
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-secondary);
+  border-bottom: 1px solid var(--color-surface-container-high);
+  transition: color var(--transition-fast);
+}
+
+.mobileNavLink:last-child {
+  border-bottom: none;
+}
+
+.mobileNavLink:hover {
+  color: var(--color-primary);
+}
