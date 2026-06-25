@@ -96,6 +96,7 @@ app.state.repo = repo
 _default_origins = [
     "http://localhost:3000",   # Next.js default
     "http://localhost:5173",   # Vite default
+    "https://zomato-milestone1-two.vercel.app", # Vercel production frontend
 ]
 
 _env_origins = os.getenv("CORS_ORIGINS", "")
