@@ -100,8 +100,13 @@ _default_origins = [
 ]
 
 _env_origins = os.getenv("CORS_ORIGINS", "")
+
+def _clean_origin(o: str) -> str:
+    o = o.strip()
+    return o.rstrip("/")
+
 allowed_origins = (
-    [o.strip() for o in _env_origins.split(",") if o.strip()]
+    [_clean_origin(o) for o in _env_origins.split(",") if o.strip()]
     if _env_origins
     else _default_origins
 )
