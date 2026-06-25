@@ -102,14 +102,13 @@ _default_origins = [
 _env_origins = os.getenv("CORS_ORIGINS", "")
 
 def _clean_origin(o: str) -> str:
-    o = o.strip()
+    # Strip whitespace, quotes (if accidentally pasted in env var), and trailing slashes
+    o = o.strip().strip("'").strip('"')
     return o.rstrip("/")
 
-allowed_origins = (
-    [_clean_origin(o) for o in _env_origins.split(",") if o.strip()]
-    if _env_origins
-    else _default_origins
-)
+# Combine default origins and environment origins to guarantee the Vercel URL is allowed
+combined_origins = _default_origins + [o for o in _env_origins.split(",") if o.strip()]
+allowed_origins = list(set([_clean_origin(o) for o in combined_origins]))
 
 app.add_middleware(
     CORSMiddleware,
