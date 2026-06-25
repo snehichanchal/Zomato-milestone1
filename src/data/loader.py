@@ -18,6 +18,16 @@ from src.config import settings
 logger = logging.getLogger(__name__)
 
 
+def _get_needed_columns() -> set[str]:
+    """Return the set of columns actually needed by the preprocessor."""
+    # Import locally to avoid circular dependency if one existed
+    from src.data.preprocessor import _COLUMN_MAP
+    cols = set(_COLUMN_MAP.keys())
+    # Add canonical column names in case they are already renamed
+    cols.update(_COLUMN_MAP.values())
+    cols.add("location")
+    return cols
+
 def load_from_huggingface() -> pd.DataFrame:
     """Download the dataset from Hugging Face and return as a DataFrame.
 
@@ -35,6 +45,12 @@ def load_from_huggingface() -> pd.DataFrame:
         )
         dataset = load_dataset(settings.HF_DATASET_NAME, split="train")
         df = dataset.to_pandas()
+        
+        # Drop massive unused columns (like reviews_list, url, phone, etc.) to save memory
+        needed = _get_needed_columns()
+        cols_to_keep = [c for c in df.columns if c in needed]
+        df = df[cols_to_keep]
+        
         logger.info("Dataset loaded successfully — %d rows.", len(df))
         return df
     except Exception as exc:
@@ -55,7 +71,9 @@ def load_from_cache(cache_path: Path | None = None) -> pd.DataFrame | None:
     path = cache_path or settings.DATA_CACHE_PATH
     if path.exists():
         logger.info("Loading dataset from cache: %s", path)
-        return pd.read_csv(path)
+        needed = _get_needed_columns()
+        # usecols as a callable allows pandas to only read needed columns, preventing OOM
+        return pd.read_csv(path, usecols=lambda c: c in needed)
     return None
 
 
