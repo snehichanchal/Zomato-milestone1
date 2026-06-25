@@ -10,6 +10,7 @@ Usage:
 
 import logging
 import os
+import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -36,22 +37,37 @@ repo = RestaurantRepository()
 
 
 # ---------------------------------------------------------------------------
+# Background data loader
+# ---------------------------------------------------------------------------
+
+def _load_data_background(app: FastAPI) -> None:
+    """Load the dataset in a background thread so the server can start
+    immediately and respond to Railway health checks while data loads."""
+    try:
+        repo.load()
+        logger.info("Successfully loaded %d restaurants.", repo.count())
+    except Exception as exc:
+        logger.error("Failed to initialize repository: %s", exc)
+
+
+# ---------------------------------------------------------------------------
 # Lifespan
 # ---------------------------------------------------------------------------
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load the dataset on startup, clean up on shutdown."""
+    """Start the data loader in a background thread, then yield immediately
+    so the server can begin accepting requests (including health checks)."""
     logger.info("Initializing Zomato Recommendation System…")
+    app.state.repo = repo  # attach early (is_loaded will be False until done)
 
-    try:
-        repo.load()
-        app.state.repo = repo
-        logger.info("Successfully loaded %d restaurants.", repo.count())
-    except Exception as exc:
-        logger.error("Failed to initialize repository: %s", exc)
-        # Let the app start so endpoints can return 503 rather than crash
-        app.state.repo = repo  # still attach (is_loaded will be False)
+    loader_thread = threading.Thread(
+        target=_load_data_background,
+        args=(app,),
+        daemon=True,
+        name="data-loader",
+    )
+    loader_thread.start()
 
     yield
 
@@ -106,8 +122,14 @@ app.include_router(api_router)
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy", "repo_loaded": repo.is_loaded}
+    """Health check endpoint — always returns 200 so Railway considers
+    the deployment healthy. The ``repo_loaded`` field indicates whether
+    the background data load has finished."""
+    return {
+        "status": "healthy",
+        "repo_loaded": repo.is_loaded,
+        "detail": "ready" if repo.is_loaded else "loading data",
+    }
 
 
 # ---------------------------------------------------------------------------
