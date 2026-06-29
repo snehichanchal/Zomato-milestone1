@@ -65,9 +65,8 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     rename_map = {k: v for k, v in _COLUMN_MAP.items() if k in df.columns}
     df = df.rename(columns=rename_map)
 
-    # Prefer listed_in(city) over raw 'location' if both exist
+    # We no longer overwrite 'location' with 'listed_in_city' to ensure all granular locations are available.
     if "listed_in_city" in df.columns:
-        df["location"] = df["listed_in_city"]
         df = df.drop(columns=["listed_in_city"], errors="ignore")
 
     # 2. Parse rating
