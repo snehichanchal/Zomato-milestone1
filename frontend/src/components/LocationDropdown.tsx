@@ -135,7 +135,7 @@ export default function LocationDropdown({
           {filtered.length === 0 ? (
             <li className={styles.noResults}>No locations found</li>
           ) : (
-            filtered.slice(0, 50).map((loc, idx) => (
+            filtered.slice(0, 200).map((loc, idx) => (
               <li
                 key={loc}
                 className={`${styles.option} ${idx === highlightIndex ? styles.optionHighlighted : ""}`}
